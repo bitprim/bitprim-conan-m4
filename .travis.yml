@@ -6,7 +6,6 @@ env:
      - CONAN_LOGIN_USERNAME: "bitprim-bintray"
      - CONAN_CHANNEL: "stable"
      - CONAN_UPLOAD: "https://api.bintray.com/conan/bitprim/bitprim"
-     - CONAN_STABLE_BRANCH_PATTERN: "release/*"
 
 linux: &linux
    os: linux
