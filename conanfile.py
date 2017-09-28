@@ -65,6 +65,10 @@ class GnuM4Conan(ConanFile):
             if not tools.OSInfo().is_windows:
                 env_build = AutoToolsBuildEnvironment(self)
 
+
+                # if self.settings.compiler == "clang":
+                #     env_build.flags.append('-mstackrealign')
+
                 # if self.settings.arch == "x86" or self.settings.arch == "x86_64":
                 #     env_build.flags.append('-mstackrealign')
 
@@ -75,7 +79,14 @@ class GnuM4Conan(ConanFile):
                 #     tools.replace_in_file("./configure", old_str, new_str)
 
                 # Zlib configure doesnt allow this parameters (in 1.4.18) ???????????
-                env_build.configure("./", build=False, host=False, target=False)
+                # env_build.configure("./", args=[CFLAGS="-I/usr/local/include"], build=False, host=False, target=False)
+                # env_build.configure("./", args=["CFLAGS='-rtlib=compiler-rt'"], build=False, host=False, target=False)
+
+                if self.settings.compiler == "clang":
+                    self.run("./configure CFLAGS='-rtlib=compiler-rt'")
+                else:
+                    env_build.configure("./", build=False, host=False, target=False)
+                
                 env_build.make()
 
             # else:
