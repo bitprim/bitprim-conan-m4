@@ -19,14 +19,17 @@ class DefaultNameConan(ConanFile):
     requires = "m4/1.4.18@%s/%s" % (username, channel)
 
     def build(self):
-        cmake = CMake(self)
-        cmake.configure(source_dir="../../", build_dir="./")
-        cmake.build()
+        pass
+        # cmake = CMake(self)
+        # cmake.configure(source_dir="../../", build_dir="./")
+        # cmake.build()
 
     def imports(self):
-        self.copy(pattern="*.dll", dst="bin", src="bin")
-        self.copy(pattern="*.dylib", dst="bin", src="lib")
+        pass
+        # self.copy(pattern="*.dll", dst="bin", src="bin")
+        # self.copy(pattern="*.dylib", dst="bin", src="lib")
 
     def test(self):
-        self.run("cd bin && .%senough" % os.sep)
-        assert os.path.exists(os.path.join(self.deps_cpp_info["m4"].rootpath, "LICENSE"))
+        pass
+        # self.run("cd bin && .%senough" % os.sep)
+        # assert os.path.exists(os.path.join(self.deps_cpp_info["m4"].rootpath, "LICENSE"))
