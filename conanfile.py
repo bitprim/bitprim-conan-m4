@@ -62,39 +62,48 @@ class GnuM4Conan(ConanFile):
             
     def build(self):
         with tools.chdir(self.ZIP_FOLDER_NAME):
-            if not tools.OSInfo().is_windows:
-                env_build = AutoToolsBuildEnvironment(self)
+            env_build = AutoToolsBuildEnvironment(self)
+            if self.settings.compiler == "clang":
+                self.run("./configure CFLAGS='-rtlib=compiler-rt'")
+            else:
+                env_build.configure("./", build=False, host=False, target=False)
+            env_build.make()
 
 
-                # if self.settings.compiler == "clang":
-                #     env_build.flags.append('-mstackrealign')
+            # if not tools.OSInfo().is_windows:
+            # # if self.settings.compiler != "Visual Studio":
+            #     env_build = AutoToolsBuildEnvironment(self)
 
-                # if self.settings.arch == "x86" or self.settings.arch == "x86_64":
-                #     env_build.flags.append('-mstackrealign')
 
-                # env_build.fpic = True
-                # if self.settings.os == "Macos":
-                #     old_str = '-install_name $libdir/$SHAREDLIBM'
-                #     new_str = '-install_name $SHAREDLIBM'
-                #     tools.replace_in_file("./configure", old_str, new_str)
+            #     # if self.settings.compiler == "clang":
+            #     #     env_build.flags.append('-mstackrealign')
 
-                # Zlib configure doesnt allow this parameters (in 1.4.18) ???????????
-                # env_build.configure("./", args=[CFLAGS="-I/usr/local/include"], build=False, host=False, target=False)
-                # env_build.configure("./", args=["CFLAGS='-rtlib=compiler-rt'"], build=False, host=False, target=False)
+            #     # if self.settings.arch == "x86" or self.settings.arch == "x86_64":
+            #     #     env_build.flags.append('-mstackrealign')
 
-                if self.settings.compiler == "clang":
-                    self.run("./configure CFLAGS='-rtlib=compiler-rt'")
-                else:
-                    env_build.configure("./", build=False, host=False, target=False)
+            #     # env_build.fpic = True
+            #     # if self.settings.os == "Macos":
+            #     #     old_str = '-install_name $libdir/$SHAREDLIBM'
+            #     #     new_str = '-install_name $SHAREDLIBM'
+            #     #     tools.replace_in_file("./configure", old_str, new_str)
+
+            #     # Zlib configure doesnt allow this parameters (in 1.4.18) ???????????
+            #     # env_build.configure("./", args=[CFLAGS="-I/usr/local/include"], build=False, host=False, target=False)
+            #     # env_build.configure("./", args=["CFLAGS='-rtlib=compiler-rt'"], build=False, host=False, target=False)
+
+            #     if self.settings.compiler == "clang":
+            #         self.run("./configure CFLAGS='-rtlib=compiler-rt'")
+            #     else:
+            #         env_build.configure("./", build=False, host=False, target=False)
                 
-                env_build.make()
+            #     env_build.make()
 
-            # else:
-            #     files.mkdir("_build")
-            #     with tools.chdir("_build"):
-            #         cmake = CMake(self)
-            #         cmake.configure(build_dir=".")
-            #         cmake.build(build_dir=".")
+            # # else:
+            # #     files.mkdir("_build")
+            # #     with tools.chdir("_build"):
+            # #         cmake = CMake(self)
+            # #         cmake.configure(build_dir=".")
+            # #         cmake.build(build_dir=".")
 
     def package(self):
 
