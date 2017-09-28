@@ -68,7 +68,7 @@ class GnuM4Conan(ConanFile):
                 # if self.settings.arch == "x86" or self.settings.arch == "x86_64":
                 #     env_build.flags.append('-mstackrealign')
 
-                env_build.fpic = True
+                # env_build.fpic = True
                 # if self.settings.os == "Macos":
                 #     old_str = '-install_name $libdir/$SHAREDLIBM'
                 #     new_str = '-install_name $SHAREDLIBM'
