@@ -3,6 +3,7 @@ from conan.packager import ConanMultiPackager
 if __name__ == "__main__":
     builder = ConanMultiPackager(archs=["x86_64"])
     # builder.add_common_builds(shared_option_name="m4:shared")
+    builder.add_common_builds()
 
     # filtered_builds = []
     # for settings, options, env_vars, build_requires in builder.builds:
