@@ -136,8 +136,8 @@ class GnuM4Conan(ConanFile):
                 if self.settings.compiler == "clang":
                     self.run("./configure CFLAGS='-rtlib=compiler-rt'")
                 else:
-                    # env_build.configure("./", build=False, host=False, target=False)
-                    self.run("./configure'")
+                    env_build.configure("./", build=False, host=False, target=False)
+                    # self.run("./configure")
                 env_build.make()
         # else:
         #     # http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip
