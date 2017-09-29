@@ -119,12 +119,18 @@ class GnuM4Conan(ConanFile):
             # self.output.warn(configure_command)
             self.run(configure_command)
 
+
+            self.output.warn("*** configure_command OK")
+
             # if self.settings.os == "Linux" or self.settings.os == "Macos":
             if self.settings.os != "Windows":
                 self.run("cd %s && make" % self.ZIP_FOLDER_NAME)
             else:
+                # make_command = "cd %s && C:\MinGw\bin\make" % self.ZIP_FOLDER_NAME
+                make_command = "cd %s && make" % self.ZIP_FOLDER_NAME
+                self.output.warn("*** make_command: %s" % (make_command))
                 # self.run("dir C:\MinGw\bin\")
-                self.run("cd %s && C:\MinGw\bin\make" % self.ZIP_FOLDER_NAME)
+                self.run(make_command)
 
 
     def package(self):
