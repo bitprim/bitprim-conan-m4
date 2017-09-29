@@ -77,7 +77,7 @@ class GnuM4Conan(ConanFile):
                             # https://sourceforge.net/projects/gnuwin32/files/m4/1.4.14-1/m4-1.4.14-1-bin.zip/download
 
             # tools.download("http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip", 'm4-1.4.14-1-bin.zip')
-            tools.download("https://sourceforge.net/projects/gnuwin32/files/m4/1.4.14-1/m4-1.4.14-1-bin.zip/download", 'm4-1.4.14-1-bin.zip')
+            tools.download("https://razaoinfo.dl.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip", 'm4-1.4.14-1-bin.zip')
             tools.unzip('m4-1.4.14-1-bin.zip')
             os.unlink('m4-1.4.14-1-bin.zip')
             
