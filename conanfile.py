@@ -53,6 +53,8 @@ class GnuM4Conan(ConanFile):
         if self.settings.os == "Windows":
             # Workaround
             tools.download("https://razaoinfo.dl.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip", 'm4.zip')
+
+            self.run("dir")
             tools.unzip('m4.zip')
             # os.unlink('m4.zip')
             
