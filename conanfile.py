@@ -50,13 +50,25 @@ class GnuM4Conan(ConanFile):
 
     def source(self):
 
+        zip_name = "m4-%s.tar.gz" % self.version
+
+        # tools.download("https://zlib.net/fossils/%s" % (zip_name), zip_name)
+        tools.download("http://ftp.gnu.org/gnu/m4/%s" % (zip_name), zip_name)
+
+        tools.unzip(zip_name)
+        os.unlink(zip_name)
+        files.rmdir("%s/contrib" % self.ZIP_FOLDER_NAME)
+        if self.settings.os != "Windows":
+            self.run("chmod +x ./%s/configure" % self.ZIP_FOLDER_NAME)
+        
+
         if self.settings.os == "Windows":
             # Workaround
             # http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip
 
             tools.download("http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip", 'm4-1.4.14-1-bin.zip')
             tools.unzip('m4-1.4.14-1-bin.zip')
-            # os.unlink('m4-1.4.14-1-bin.zip')
+            os.unlink('m4-1.4.14-1-bin.zip')
             
             self.run("dir %s" % 'm4-1.4.14-1-bin')
 
@@ -70,18 +82,6 @@ class GnuM4Conan(ConanFile):
 
             self.run("dir %s" % build_dir)
 
-        else:
-            zip_name = "m4-%s.tar.gz" % self.version
-
-            # tools.download("https://zlib.net/fossils/%s" % (zip_name), zip_name)
-            tools.download("http://ftp.gnu.org/gnu/m4/%s" % (zip_name), zip_name)
-
-            tools.unzip(zip_name)
-            os.unlink(zip_name)
-            files.rmdir("%s/contrib" % self.ZIP_FOLDER_NAME)
-            if self.settings.os != "Windows":
-                self.run("chmod +x ./%s/configure" % self.ZIP_FOLDER_NAME)
-            
 
     def generic_env_configure_vars(self, verbose=False):
         """Reusable in any lib with configure!!"""
