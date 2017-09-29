@@ -60,50 +60,74 @@ class GnuM4Conan(ConanFile):
         if self.settings.os != "Windows":
             self.run("chmod +x ./%s/configure" % self.ZIP_FOLDER_NAME)
             
+
+    def generic_env_configure_vars(self, verbose=False):
+        """Reusable in any lib with configure!!"""
+        command = ""
+        if self.settings.os == "Linux" or self.settings.os == "Macos":
+            libs = 'LIBS="%s"' % " ".join(["-l%s" % lib for lib in self.deps_cpp_info.libs])
+            ldflags = 'LDFLAGS="%s"' % " ".join(["-L%s" % lib for lib in self.deps_cpp_info.lib_paths])
+            archflag = "-m32" if self.settings.arch == "x86" else ""
+            cflags = 'CFLAGS="-fPIC %s %s"' % (archflag, " ".join(self.deps_cpp_info.cflags))
+            cpp_flags = 'CPPFLAGS="-fPIC %s %s"' % (archflag, " ".join(self.deps_cpp_info.cppflags))
+            command = "env %s %s %s %s" % (libs, ldflags, cflags, cpp_flags)
+        elif self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
+            cl_args = " ".join(['/I"%s"' % lib for lib in self.deps_cpp_info.include_paths])
+            lib_paths= ";".join(['"%s"' % lib for lib in self.deps_cpp_info.lib_paths])
+            command = "SET LIB=%s;%%LIB%% && SET CL=%s" % (lib_paths, cl_args)
+            if verbose:
+                command += " && SET LINK=/VERBOSE"
+        if self.settings.os == "Windows" and self.settings.compiler == "gcc":
+            libs = 'LIBS="%s"' % " ".join(["-l%s" % lib for lib in self.deps_cpp_info.libs])
+            ldflags = 'LDFLAGS="%s"' % " ".join(["-L%s" % lib for lib in self.deps_cpp_info.lib_paths])
+            archflag = "-m32" if self.settings.arch == "x86" else ""
+            cflags = 'CFLAGS="-fPIC %s %s"' % (archflag, " ".join(self.deps_cpp_info.cflags))
+            cpp_flags = 'CPPFLAGS="-fPIC %s %s"' % (archflag, " ".join(self.deps_cpp_info.cppflags))
+            command = "env %s %s %s %s" % (libs, ldflags, cflags, cpp_flags)
+
+        return command
+            
     def build(self):
         with tools.chdir(self.ZIP_FOLDER_NAME):
             env_build = AutoToolsBuildEnvironment(self)
             if self.settings.compiler == "clang":
                 self.run("./configure CFLAGS='-rtlib=compiler-rt'")
             else:
-                env_build.configure("./", build=False, host=False, target=False)
+                # env_build.configure("./", build=False, host=False, target=False)
+                self.run("./configure'")
             env_build.make()
 
 
-            # if not tools.OSInfo().is_windows:
-            # # if self.settings.compiler != "Visual Studio":
-            #     env_build = AutoToolsBuildEnvironment(self)
 
 
-            #     # if self.settings.compiler == "clang":
-            #     #     env_build.flags.append('-mstackrealign')
+            # config_options_string = ""
 
-            #     # if self.settings.arch == "x86" or self.settings.arch == "x86_64":
-            #     #     env_build.flags.append('-mstackrealign')
+            # for option_name in self.options.values.fields:
+            #     activated = getattr(self.options, option_name)
+            #     if activated:
+            #         self.output.info("Activated option! %s" % option_name)
+            #         config_options_string += " --%s" % option_name.replace("_", "-")
 
-            #     # env_build.fpic = True
-            #     # if self.settings.os == "Macos":
-            #     #     old_str = '-install_name $libdir/$SHAREDLIBM'
-            #     #     new_str = '-install_name $SHAREDLIBM'
-            #     #     tools.replace_in_file("./configure", old_str, new_str)
+            # self.output.warn("*** Detected OS: %s" % (self.settings.os))
 
-            #     # Zlib configure doesnt allow this parameters (in 1.4.18) ???????????
-            #     # env_build.configure("./", args=[CFLAGS="-I/usr/local/include"], build=False, host=False, target=False)
-            #     # env_build.configure("./", args=["CFLAGS='-rtlib=compiler-rt'"], build=False, host=False, target=False)
+            # if self.settings.os == "Macos":
+            #     config_options_string += " --with-pic"
 
-            #     if self.settings.compiler == "clang":
-            #         self.run("./configure CFLAGS='-rtlib=compiler-rt'")
-            #     else:
-            #         env_build.configure("./", build=False, host=False, target=False)
-                
-            #     env_build.make()
+            
+            # disable_assembly = "--disable-assembly" if self.settings.arch == "x86" else ""
 
-            # # else:
-            # #     files.mkdir("_build")
-            # #     with tools.chdir("_build"):
-            # #         cmake = CMake(self)
-            # #         cmake.configure(build_dir=".")
-            # #         cmake.build(build_dir=".")
+            # configure_command = "cd %s && %s ./configure --with-pic --enable-static --enable-shared %s %s" % (self.ZIP_FOLDER_NAME, self.generic_env_configure_vars(), config_options_string, disable_assembly)
+            # self.output.warn("*** configure_command: %s" % (configure_command))
+            # # self.output.warn(configure_command)
+            # self.run(configure_command)
+
+            # # if self.settings.os == "Linux" or self.settings.os == "Macos":
+            # if self.settings.os != "Windows":
+            #     self.run("cd %s && make" % self.ZIP_FOLDER_NAME)
+            # else:
+            #     # self.run("dir C:\MinGw\bin\")
+            #     self.run("cd %s && C:\MinGw\bin\make" % self.ZIP_FOLDER_NAME)
+
 
     def package(self):
 
