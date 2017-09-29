@@ -52,14 +52,14 @@ class GnuM4Conan(ConanFile):
 
         if self.settings.os == "Windows":
             # Workaround
-            tools.download("https://razaoinfo.dl.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip", 'm4.zip')
+            # tools.download("https://razaoinfo.dl.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip", 'm4.zip')
+            tools.download("http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip", 'm4.zip')
 
             self.run("dir")
             tools.unzip('m4.zip')
-            # os.unlink('m4.zip')
-            
             self.run("dir")
-            # self.run("dir %s" % 'm4-1.4.14-1-bin')
+            os.unlink('m4.zip')
+            self.run("dir")
 
         zip_name = "m4-%s.tar.gz" % self.version
 
@@ -75,27 +75,8 @@ class GnuM4Conan(ConanFile):
 
         if self.settings.os == "Windows":
             # Workaround
-            # http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip
 
-                            # https://downloads.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip?r=&ts=1506709614&use_mirror=razaoinfo
-                            # https://downloads.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip?r=&ts=1506709472&use_mirror=razaoinfo
-                            # https://sourceforge.net/projects/gnuwin32/files/m4/1.4.14-1/m4-1.4.14-1-bin.zip/download
-                            # https://downloads.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fgnuwin32%2Ffiles%2Fm4%2F1.4.14-1%2F&ts=1506709570&use_mirror=razaoinfo
-
-                            # http://downloads.sourceforge.net/projects/gnuwin32/files/m4/1.4.14-1/m4-1.4.14-1-bin.zip
-                            # http://downloads.sourceforge.net/project/gnuwin32
-                            # http://downloads.sourceforge.net/project/libpng/zlib/%s/%s
-                            # https://sourceforge.net/projects/gnuwin32/files/m4/1.4.14-1/m4-1.4.14-1-bin.zip/download
-
-            # # tools.download("http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip", 'm4-1.4.14-1-bin.zip')
-            # tools.download("https://razaoinfo.dl.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip", 'm4-1.4.14-1-bin.zip')
-            # tools.unzip('m4-1.4.14-1-bin.zip')
-            # os.unlink('m4-1.4.14-1-bin.zip')
-            
-            self.run("dir")
-            # self.run("dir %s" % 'm4-1.4.14-1-bin')
-
-            bin_dir = os.path.join('m4-1.4.14-1-bin', "bin")
+            bin_dir = os.path.join('.', "bin")
             build_dir = os.path.join(self.ZIP_FOLDER_NAME, "src")
 
             self.run("dir %s" % bin_dir)
