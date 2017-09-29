@@ -147,6 +147,7 @@ class GnuM4Conan(ConanFile):
 
         build_dir = os.path.join(self.ZIP_FOLDER_NAME, "src")
         self.copy(pattern="m4", dst="bin", src=build_dir, keep_path=False)
+        self.copy(pattern="m4.exe", dst="bin", src=build_dir, keep_path=False)
 
 
         # # Copying static and dynamic libs
