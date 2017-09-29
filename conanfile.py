@@ -129,6 +129,9 @@ class GnuM4Conan(ConanFile):
                 # make_command = "cd %s && C:\MinGw\bin\make" % self.ZIP_FOLDER_NAME
                 make_command = "cd %s && mingw32-make.exe" % self.ZIP_FOLDER_NAME
                 self.output.warn("*** make_command: %s" % (make_command))
+
+                self.run("dir %s" % self.ZIP_FOLDER_NAME)
+
                 # self.run("dir C:\MinGw\bin\")
                 self.run(make_command)
 
