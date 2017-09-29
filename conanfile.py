@@ -55,11 +55,11 @@ class GnuM4Conan(ConanFile):
             # tools.download("https://razaoinfo.dl.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip", 'm4.zip')
             tools.download("http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip", 'm4.zip')
 
-            self.run("dir")
+            # self.run("dir")
             tools.unzip('m4.zip')
-            self.run("dir")
+            # self.run("dir")
             os.unlink('m4.zip')
-            self.run("dir")
+            # self.run("dir")
 
         zip_name = "m4-%s.tar.gz" % self.version
 
@@ -79,17 +79,17 @@ class GnuM4Conan(ConanFile):
             bin_dir = os.path.join('.', "bin")
             build_dir = os.path.join(self.ZIP_FOLDER_NAME, "src")
 
-            self.output.warn("*** bin_dir: %s" % (bin_dir))
-            self.output.warn("*** build_dir: %s" % (build_dir))
+            # self.output.warn("*** bin_dir: %s" % (bin_dir))
+            # self.output.warn("*** build_dir: %s" % (build_dir))
 
-            self.run("dir %s" % bin_dir)
-            self.run("dir %s" % build_dir)
+            # self.run("dir %s" % bin_dir)
+            # self.run("dir %s" % build_dir)
 
             # self.copy(pattern="m4", dst="bin", src=build_dir, keep_path=False)
             # self.copy(pattern="m4.exe", dst=build_dir, src=bin_dir, keep_path=False)
             shutil.copy('./bin/m4.exe', build_dir)
 
-            self.run("dir %s" % build_dir)
+            # self.run("dir %s" % build_dir)
 
 
     def generic_env_configure_vars(self, verbose=False):
