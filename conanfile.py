@@ -79,7 +79,11 @@ class GnuM4Conan(ConanFile):
             bin_dir = os.path.join('.', "bin")
             build_dir = os.path.join(self.ZIP_FOLDER_NAME, "src")
 
+            self.output.warn("*** bin_dir: %s" % (bin_dir))
+            self.output.warn("*** build_dir: %s" % (build_dir))
+
             self.run("dir %s" % bin_dir)
+            self.run("dir %s" % build_dir)
 
             # self.copy(pattern="m4", dst="bin", src=build_dir, keep_path=False)
             self.copy(pattern="m4.exe", dst=build_dir, src=bin_dir, keep_path=False)
