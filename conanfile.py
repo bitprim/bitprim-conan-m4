@@ -70,6 +70,7 @@ class GnuM4Conan(ConanFile):
             tools.unzip('m4-1.4.14-1-bin.zip')
             os.unlink('m4-1.4.14-1-bin.zip')
             
+            self.run("dir")
             self.run("dir %s" % 'm4-1.4.14-1-bin')
 
             bin_dir = os.path.join('m4-1.4.14-1-bin', "bin")
