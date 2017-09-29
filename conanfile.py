@@ -61,6 +61,15 @@ class GnuM4Conan(ConanFile):
             os.unlink('m4.zip')
             # self.run("dir")
 
+            tools.download("https://sourceforge.net/projects/gnuwin32/files/regex/2.7/regex-2.7-bin.zip/", 'regex.zip')
+            self.run("dir")
+            tools.unzip('regex.zip', 'regex')
+            self.run("dir")
+            os.unlink('regex.zip')
+            self.run("dir")
+            self.run("dir regex")
+
+
         zip_name = "m4-%s.tar.gz" % self.version
 
         # tools.download("https://zlib.net/fossils/%s" % (zip_name), zip_name)
@@ -76,6 +85,7 @@ class GnuM4Conan(ConanFile):
         if self.settings.os == "Windows":
             # Workaround
 
+            dll_dir = os.path.join('.', 'regex', "bin")
             bin_dir = os.path.join('.', "bin")
             build_dir = os.path.join(self.ZIP_FOLDER_NAME, "src")
 
@@ -88,6 +98,7 @@ class GnuM4Conan(ConanFile):
             # self.copy(pattern="m4", dst="bin", src=build_dir, keep_path=False)
             # self.copy(pattern="m4.exe", dst=build_dir, src=bin_dir, keep_path=False)
             shutil.copy('./bin/m4.exe', build_dir)
+            shutil.copy('./regex/bin/regex2.dll', build_dir)
 
             # self.run("dir %s" % build_dir)
 
@@ -189,6 +200,7 @@ class GnuM4Conan(ConanFile):
         build_dir = os.path.join(self.ZIP_FOLDER_NAME, "src")
         self.copy(pattern="m4", dst="bin", src=build_dir, keep_path=False)
         self.copy(pattern="m4.exe", dst="bin", src=build_dir, keep_path=False)
+        self.copy(pattern="regex2.dll", dst="bin", src=build_dir, keep_path=False)
 
 
         # # Copying static and dynamic libs
