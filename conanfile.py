@@ -49,16 +49,38 @@ class GnuM4Conan(ConanFile):
         del self.settings.compiler.libcxx
 
     def source(self):
-        zip_name = "m4-%s.tar.gz" % self.version
 
-        # tools.download("https://zlib.net/fossils/%s" % (zip_name), zip_name)
-        tools.download("http://ftp.gnu.org/gnu/m4/%s" % (zip_name), zip_name)
+        if self.settings.os == "Windows":
+            # Workaround
+            # http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip
 
-        tools.unzip(zip_name)
-        os.unlink(zip_name)
-        files.rmdir("%s/contrib" % self.ZIP_FOLDER_NAME)
-        if self.settings.os != "Windows":
-            self.run("chmod +x ./%s/configure" % self.ZIP_FOLDER_NAME)
+            tools.download("http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip", 'm4-1.4.14-1-bin.zip')
+            tools.unzip('m4-1.4.14-1-bin.zip')
+            # os.unlink('m4-1.4.14-1-bin.zip')
+            
+            self.run("dir %s" % 'm4-1.4.14-1-bin')
+
+            bin_dir = os.path.join('m4-1.4.14-1-bin', "bin")
+            build_dir = os.path.join(self.ZIP_FOLDER_NAME, "src")
+
+            self.run("dir %s" % bin_dir)
+
+            # self.copy(pattern="m4", dst="bin", src=build_dir, keep_path=False)
+            self.copy(pattern="m4.exe", dst=build_dir, src=bin_dir, keep_path=False)
+
+            self.run("dir %s" % build_dir)
+
+        else:
+            zip_name = "m4-%s.tar.gz" % self.version
+
+            # tools.download("https://zlib.net/fossils/%s" % (zip_name), zip_name)
+            tools.download("http://ftp.gnu.org/gnu/m4/%s" % (zip_name), zip_name)
+
+            tools.unzip(zip_name)
+            os.unlink(zip_name)
+            files.rmdir("%s/contrib" % self.ZIP_FOLDER_NAME)
+            if self.settings.os != "Windows":
+                self.run("chmod +x ./%s/configure" % self.ZIP_FOLDER_NAME)
             
 
     def generic_env_configure_vars(self, verbose=False):
@@ -97,43 +119,44 @@ class GnuM4Conan(ConanFile):
                     # env_build.configure("./", build=False, host=False, target=False)
                     self.run("./configure'")
                 env_build.make()
-        else:
-            config_options_string = ""
+        # else:
+        #     # http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip
+        #     config_options_string = ""
 
-            for option_name in self.options.values.fields:
-                activated = getattr(self.options, option_name)
-                if activated:
-                    self.output.info("Activated option! %s" % option_name)
-                    config_options_string += " --%s" % option_name.replace("_", "-")
+        #     for option_name in self.options.values.fields:
+        #         activated = getattr(self.options, option_name)
+        #         if activated:
+        #             self.output.info("Activated option! %s" % option_name)
+        #             config_options_string += " --%s" % option_name.replace("_", "-")
 
-            self.output.warn("*** Detected OS: %s" % (self.settings.os))
+        #     self.output.warn("*** Detected OS: %s" % (self.settings.os))
 
-            if self.settings.os == "Macos":
-                config_options_string += " --with-pic"
+        #     if self.settings.os == "Macos":
+        #         config_options_string += " --with-pic"
 
             
-            disable_assembly = "--disable-assembly" if self.settings.arch == "x86" else ""
+        #     disable_assembly = "--disable-assembly" if self.settings.arch == "x86" else ""
 
-            configure_command = "cd %s && %s ./configure %s %s" % (self.ZIP_FOLDER_NAME, self.generic_env_configure_vars(), config_options_string, disable_assembly)
-            self.output.warn("*** configure_command: %s" % (configure_command))
-            # self.output.warn(configure_command)
-            self.run(configure_command)
+        #     configure_command = "cd %s && %s ./configure %s %s" % (self.ZIP_FOLDER_NAME, self.generic_env_configure_vars(), config_options_string, disable_assembly)
+        #     self.output.warn("*** configure_command: %s" % (configure_command))
+        #     # self.output.warn(configure_command)
+        #     self.run(configure_command)
 
 
-            self.output.warn("*** configure_command OK")
+        #     self.output.warn("*** configure_command OK")
 
-            # if self.settings.os == "Linux" or self.settings.os == "Macos":
-            if self.settings.os != "Windows":
-                self.run("cd %s && make" % self.ZIP_FOLDER_NAME)
-            else:
-                # make_command = "cd %s && C:\MinGw\bin\make" % self.ZIP_FOLDER_NAME
-                make_command = "cd %s && mingw32-make.exe" % self.ZIP_FOLDER_NAME
-                self.output.warn("*** make_command: %s" % (make_command))
+        #     # if self.settings.os == "Linux" or self.settings.os == "Macos":
+        #     if self.settings.os != "Windows":
+        #         self.run("cd %s && make" % self.ZIP_FOLDER_NAME)
+        #     else:
+        #         # make_command = "cd %s && C:\MinGw\bin\make" % self.ZIP_FOLDER_NAME
+        #         make_command = "cd %s && mingw32-make.exe" % self.ZIP_FOLDER_NAME
+        #         self.output.warn("*** make_command: %s" % (make_command))
 
-                self.run("dir %s" % self.ZIP_FOLDER_NAME)
+        #         self.run("dir %s" % self.ZIP_FOLDER_NAME)
 
-                # self.run("dir C:\MinGw\bin\")
-                self.run(make_command)
+        #         # self.run("dir C:\MinGw\bin\")
+        #         self.run(make_command)
 
 
     def package(self):
