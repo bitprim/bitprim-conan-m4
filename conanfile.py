@@ -21,7 +21,7 @@ from conans import ConanFile, tools, CMake, AutoToolsBuildEnvironment
 from conans.util import files
 from conans import __version__ as conan_version
 import os
-
+import shutil
 
 class GnuM4Conan(ConanFile):
     name = "m4"
@@ -86,7 +86,8 @@ class GnuM4Conan(ConanFile):
             self.run("dir %s" % build_dir)
 
             # self.copy(pattern="m4", dst="bin", src=build_dir, keep_path=False)
-            self.copy(pattern="m4.exe", dst=build_dir, src=bin_dir, keep_path=False)
+            # self.copy(pattern="m4.exe", dst=build_dir, src=bin_dir, keep_path=False)
+            shutil.copy('./bin/m4.exe', build_dir)
 
             self.run("dir %s" % build_dir)
 
