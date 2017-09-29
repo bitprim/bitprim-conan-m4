@@ -50,6 +50,15 @@ class GnuM4Conan(ConanFile):
 
     def source(self):
 
+        if self.settings.os == "Windows":
+            # Workaround
+            tools.download("https://razaoinfo.dl.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip", 'm4.zip')
+            tools.unzip('m4.zip')
+            # os.unlink('m4.zip')
+            
+            self.run("dir")
+            # self.run("dir %s" % 'm4-1.4.14-1-bin')
+
         zip_name = "m4-%s.tar.gz" % self.version
 
         # tools.download("https://zlib.net/fossils/%s" % (zip_name), zip_name)
@@ -76,13 +85,13 @@ class GnuM4Conan(ConanFile):
                             # http://downloads.sourceforge.net/project/libpng/zlib/%s/%s
                             # https://sourceforge.net/projects/gnuwin32/files/m4/1.4.14-1/m4-1.4.14-1-bin.zip/download
 
-            # tools.download("http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip", 'm4-1.4.14-1-bin.zip')
-            tools.download("https://razaoinfo.dl.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip", 'm4-1.4.14-1-bin.zip')
-            tools.unzip('m4-1.4.14-1-bin.zip')
-            os.unlink('m4-1.4.14-1-bin.zip')
+            # # tools.download("http://downloads.sourceforge.net/gnuwin32/m4-1.4.14-1-bin.zip", 'm4-1.4.14-1-bin.zip')
+            # tools.download("https://razaoinfo.dl.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip", 'm4-1.4.14-1-bin.zip')
+            # tools.unzip('m4-1.4.14-1-bin.zip')
+            # os.unlink('m4-1.4.14-1-bin.zip')
             
             self.run("dir")
-            self.run("dir %s" % 'm4-1.4.14-1-bin')
+            # self.run("dir %s" % 'm4-1.4.14-1-bin')
 
             bin_dir = os.path.join('m4-1.4.14-1-bin', "bin")
             build_dir = os.path.join(self.ZIP_FOLDER_NAME, "src")
