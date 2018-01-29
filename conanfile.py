@@ -252,6 +252,7 @@ class GnuM4Conan(ConanFile):
         #     else:
         #         self.copy(pattern="*.a", dst="lib", src=build_dir, keep_path=False)
 
+
     # def package_info(self):
     #     pass
     #     # if self.settings.os == "Windows":
