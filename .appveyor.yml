@@ -5,7 +5,7 @@ environment:
     PYTHON_VERSION: "2.7.8"
     PYTHON_ARCH: "32"
 
-    CONAN_REFERENCE: "m4/1.4.18"
+    CONAN_REFERENCE: "m4/1.4.14-1"
     CONAN_USERNAME: "bitprim"
     CONAN_LOGIN_USERNAME: "bitprim@bitprim"
     CONAN_CHANNEL: "stable"
@@ -14,10 +14,9 @@ environment:
     CONAN_STABLE_BRANCH_PATTERN: "release/*"
 
     matrix:
-        # - MINGW_CONFIGURATIONS: "5.4@x86_64@seh@posix" #5.4@x86_64@sjlj@posix
-        # - MINGW_CONFIGURATIONS: "7.1@x86_64@seh@posix" #7.1@x86_64@sjlj@posix
 
-        - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix, 6@x86_64@seh@posix, 5@x86_64@seh@posix, 4.9@x86_64@seh@posix"
+        # - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix, 6@x86_64@seh@posix, 5@x86_64@seh@posix, 4.9@x86_64@seh@posix"
+        - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix"
 
         # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
         #   CONAN_VISUAL_VERSIONS: 12
