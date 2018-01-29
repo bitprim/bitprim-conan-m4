@@ -95,7 +95,11 @@ class GnuM4Conan(ConanFile):
             build_dir = os.path.join(self.ZIP_FOLDER_NAME, "src")
 
             # self.output.warn("*** bin_dir: %s" % (bin_dir))
-            # self.output.warn("*** build_dir: %s" % (build_dir))
+            self.output.info("*** build_dir: %s" % (build_dir))
+
+            if not os.path.exists(build_dir):
+                os.makedirs(build_dir)
+
 
             # self.run("dir %s" % bin_dir)
             # self.run("dir %s" % build_dir)
