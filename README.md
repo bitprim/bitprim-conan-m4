@@ -18,20 +18,20 @@ The packages generated with this **conanfile** can be found in [conan.io](https:
     
 ## Upload packages to server
 
-    $ conan upload m4/1.4.14-1@bitprim/stable --all
+    $ conan upload m4/1.4.18@bitprim/stable --all
     
 ## Reuse the packages
 
 ### Basic setup
 
-    $ conan install m4/1.4.14-1@bitprim/stable
+    $ conan install m4/1.4.18@bitprim/stable
     
 ### Project setup
 
 If you handle multiple dependencies in your project is better to add a *conanfile.txt*
     
     [requires]
-    m4/1.4.14-1@bitprim/stable
+    m4/1.4.18@bitprim/stable
 
     [options]
     m4:shared=true # false

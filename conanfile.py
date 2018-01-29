@@ -25,22 +25,24 @@ import shutil
 
 class GnuM4Conan(ConanFile):
     name = "m4"
-    # version = "1.4.18"
-    version = "1.4.14-1"
+    version = "1.4.18"
+    # version = "1.4.14-1"
     
 
     ZIP_FOLDER_NAME = "m4-%s" % version
 
     # settings = "os", "arch", "compiler", "build_type"
-    settings = {"os": ["Windows"],
-        # "compiler": None,
-        "arch": None}
+    settings = "os", "arch"
+
+    # settings = {"os": ["Windows"],
+    #     # "compiler": None,
+    #     "arch": None}
 
 
     # generators = "cmake"
     # generators = "txt"
 
-    url = "https://github.com/fpelliccioni/bitprim-conan-m4"
+    url = "https://github.com/bitprim/bitprim-conan-m4"
     license = "http://www.gnu.org/licenses/licenses.html"
 
     description = "GNU M4 is a macro processor in the sense that it copies its input to the output expanding macros as it goes. "
@@ -55,7 +57,9 @@ class GnuM4Conan(ConanFile):
         if self.settings.os == "Windows":
             # Workaround
 
-            url = "http://downloads.sourceforge.net/gnuwin32/m4-%s-bin.zip" % self.version
+            win_version = "1.4.14-1"
+
+            url = "http://downloads.sourceforge.net/gnuwin32/m4-%s-bin.zip" % win_version
 
             # tools.download("https://razaoinfo.dl.sourceforge.net/project/gnuwin32/m4/1.4.14-1/m4-1.4.14-1-bin.zip", 'm4.zip')
             tools.download(url, 'm4.zip')
