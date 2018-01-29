@@ -31,8 +31,8 @@ class GnuM4Conan(ConanFile):
 
     ZIP_FOLDER_NAME = "m4-%s" % version
 
-    # settings = "os", "arch", "compiler", "build_type"
-    settings = "os", "arch"
+    settings = "os", "arch", "compiler", "build_type"
+    # settings = "os", "arch"
 
     # settings = {"os": ["Windows"],
     #     # "compiler": None,
