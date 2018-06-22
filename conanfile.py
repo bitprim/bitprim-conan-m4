@@ -52,6 +52,13 @@ class GnuM4Conan(ConanFile):
     #     # del self.settings.compiler.libcxx
     #     pass
 
+    def package_id(self):
+        self.info.requires.clear()
+        # self.settings.remove("compiler")
+        # self.settings.remove("build_type")
+        self.info.settings.compiler = "ANY"
+        self.info.settings.build_type = "ANY"
+
     def source(self):
 
         if self.settings.os == "Windows":
